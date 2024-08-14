@@ -12,5 +12,6 @@
 // Function declarations related to repository management
 void deploy_repo(const char *repo_id);
 void deploy_all_repos();
+void delete_service(const char *repo_id);
 
 #endif // DEPLOY_H

@@ -20,5 +20,6 @@ void deploy_repo(const char *repo_id);
 void deploy_all_repos();
 const char *check_repo_framework(const char *repo_path);
 int check_laravel_and_php_versions(const char *repo_path); // Add this line
+void delete_repo(const char *repo_id);
 
 #endif // REPO_H

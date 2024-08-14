@@ -2,6 +2,7 @@
 #include "database.h"
 #include "repo.h"
 #include "docker.h"
+#include "deploy.h"
 #include "utils.h"
 
 int loading = 0; // Global variable to control the loader
@@ -30,7 +31,8 @@ void print_help()
     printf("  update <ID>, u <ID>                                 - Update a specific repository by ID\n");
     printf("  switch <ID> <BRANCH_OR_TAG>, s <ID> <BRANCH_OR_TAG> - Switch to a specific branch or tag for a repository\n");
     printf("  deploy, d                                           - Deploy all repositories\n");
-    printf("  deploy <ID>, d <ID>                                 - Deploy a specific repository by ID\n");
+    printf("  deploy <ID>, dep <ID>                               - Deploy a specific repository by ID\n");
+    printf("  delete <ID>, del <ID>                               - Delete a repository and its Docker service by ID\n"); // Fixed closing quote
     printf("  exit, quit, q                                       - Exit the mini terminal\n");
     printf("  help, h                                             - Show this help message\n");
     printf("\n");
@@ -102,10 +104,15 @@ void mini_terminal()
         {
             deploy_all_repos();
         }
-        else if (strncmp(command, "deploy ", 7) == 0 || strncmp(command, "d ", 2) == 0)
+        else if (strncmp(command, "deploy ", 7) == 0 || strncmp(command, "dep ", 4) == 0)
         {
-            const char *repo_id = (command[0] == 'd') ? command + 2 : command + 7;
+            const char *repo_id = (command[0] == 'd') ? command + 7 : command + 4;
             deploy_repo(repo_id);
+        }
+        else if (strncmp(command, "delete ", 7) == 0 || strncmp(command, "del ", 4) == 0)
+        {
+            const char *repo_id = (command[0] == 'd') ? command + 7 : command + 4;
+            delete_service(repo_id);
         }
         else if (strcmp(command, "help") == 0 || strcmp(command, "h") == 0)
         {

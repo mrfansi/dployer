@@ -589,3 +589,59 @@ void switch_to_branch_or_tag(const char *repo_id, const char *branch_or_tag)
 
   sqlite3_finalize(stmt);
 }
+
+void delete_repo(const char *repo_id)
+{
+  sqlite3_stmt *stmt;
+  char sql[256];
+  snprintf(sql, sizeof(sql), "SELECT destination_folder FROM repositories WHERE id = ?;");
+
+  if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK)
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Failed to prepare statement.");
+    fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+    return;
+  }
+
+  sqlite3_bind_text(stmt, 1, repo_id, -1, SQLITE_STATIC);
+
+  if (sqlite3_step(stmt) == SQLITE_ROW)
+  {
+    const char *destination_folder = (const char *)sqlite3_column_text(stmt, 0);
+
+    // Remove the repository directory
+    char remove_command[512];
+    snprintf(remove_command, sizeof(remove_command), "rm -rf %s > /dev/null 2>&1", destination_folder);
+
+    int ret = system(remove_command);
+    if (ret != 0)
+    {
+      log_message(WARNING, WARNING_SYMBOL, "Failed to remove repository directory.");
+    }
+    else
+    {
+      log_message(SUCCESS, SUCCESS_SYMBOL, "Repository directory removed successfully.");
+    }
+
+    // Delete the repository entry from the database
+    snprintf(sql, sizeof(sql), "DELETE FROM repositories WHERE id = ?;");
+    sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    sqlite3_bind_text(stmt, 1, repo_id, -1, SQLITE_STATIC);
+
+    if (sqlite3_step(stmt) == SQLITE_DONE)
+    {
+      log_message(SUCCESS, SUCCESS_SYMBOL, "Repository deleted successfully from the database.");
+    }
+    else
+    {
+      log_message(ERROR, ERROR_SYMBOL, "Failed to delete repository from the database.");
+      fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+    }
+  }
+  else
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Repository ID not found.");
+  }
+
+  sqlite3_finalize(stmt);
+}

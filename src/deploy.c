@@ -278,3 +278,23 @@ void deploy_all_repos()
   sqlite3_finalize(stmt);
   log_message(SUCCESS, SUCCESS_SYMBOL, "All repositories have been deployed.");
 }
+
+void delete_service(const char *repo_id)
+{
+  // Delete the Docker service
+  char service_delete_command[256];
+  snprintf(service_delete_command, sizeof(service_delete_command), "docker service rm %s_service > /dev/null 2>&1", repo_id);
+
+  int ret = system(service_delete_command);
+  if (ret != 0)
+  {
+    fprintf(stderr, "Failed to delete Docker service with exit code %d: %s\n", WEXITSTATUS(ret), service_delete_command);
+  }
+  else
+  {
+    log_message(SUCCESS, SUCCESS_SYMBOL, "Docker service deleted successfully.");
+  }
+
+  // Delete the repository entry and its directory
+  delete_repo(repo_id);
+}
