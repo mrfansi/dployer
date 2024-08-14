@@ -46,8 +46,8 @@ brew install --cask docker
 1. **Clone the repository**:
 
     ```bash
-    git clone <your-repository-url>
-    cd <your-repository-directory>
+    git clone git@github.com:mrfansi/dployer.git
+    cd dployer
     ```
 
 2. **Build the project**:
