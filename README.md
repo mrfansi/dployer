@@ -4,19 +4,22 @@ Dployer is a command-line tool designed to manage Git repositories, deploy appli
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Initialize a New Repository](#initialize-a-new-repository)
-  - [List All Repositories](#list-all-repositories)
-  - [Update Repositories](#update-repositories)
-  - [Switch Branch or Tag](#switch-branch-or-tag)
-  - [Deploy a Repository](#deploy-a-repository)
-  - [Clean Up Docker Resources](#clean-up-docker-resources)
-- [Building the Project](#building-the-project)
-- [Running the Application](#running-the-application)
-- [Contributing](#contributing)
-- [License](#license)
+- [Dployer](#dployer)
+  - [Table of Contents](#table-of-contents)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Initialize a New Repository](#initialize-a-new-repository)
+    - [List All Repositories](#list-all-repositories)
+    - [Update Repositories](#update-repositories)
+    - [Switch Branch or Tag](#switch-branch-or-tag)
+    - [Deploy a Repository](#deploy-a-repository)
+    - [Clean Up Docker Resources](#clean-up-docker-resources)
+  - [Building the Project](#building-the-project)
+    - [Building with CMake](#building-with-cmake)
+  - [Running the Application](#running-the-application)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Prerequisites
 
@@ -37,7 +40,7 @@ sudo apt-get install build-essential cmake libsqlite3-dev libjson-c-dev git dock
 On macOS, you can install them using Homebrew:
 
 ```bash
-brew install json-c sqlite3
+brew install cmake json-c sqlite3
 brew install --cask docker
 ```
 
@@ -48,12 +51,6 @@ brew install --cask docker
     ```bash
     git clone git@github.com:mrfansi/dployer.git
     cd dployer
-    ```
-
-2. **Build the project**:
-
-    ```bash
-    make
     ```
 
 ## Usage
@@ -131,13 +128,44 @@ To clean up unused Docker images, networks, and volumes:
 
 ## Building the Project
 
-To build the project, run:
+### Building with CMake
 
-```bash
-make
-```
+1. **Create a build directory** (optional but recommended):
 
-This will compile the source files and generate the `dployer` executable.
+    ```bash
+    mkdir build
+    cd build
+    ```
+
+2. **Run CMake to configure the project**:
+
+    ```bash
+    cmake ..
+    ```
+
+   This will generate the necessary Makefiles or project files in the `build` directory.
+
+3. **Build the project**:
+
+    ```bash
+    make
+    ```
+
+   This will compile all the source files and generate the `dployer` executable.
+
+4. **Run the application**:
+
+    ```bash
+    ./dployer
+    ```
+
+5. **Clean up the build** (optional):
+
+    ```bash
+    make clean
+    ```
+
+   This will remove the compiled object files and the executable but keep the generated Makefiles.
 
 ## Running the Application
 
