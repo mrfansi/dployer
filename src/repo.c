@@ -237,16 +237,12 @@ void list_repositories()
   const char *sql = "SELECT id, git_url, destination_folder, branch_name, docker_image_tag, docker_port FROM repositories;";
   sqlite3_stmt *stmt;
 
-  log_message(INFO, INFO_SYMBOL, "Fetching repository list...");
-
   if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK)
   {
     log_message(ERROR, ERROR_SYMBOL, "Failed to fetch repositories.");
     fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
     return;
   }
-
-  log_message(SUCCESS, SUCCESS_SYMBOL, "Repository list fetched successfully.");
 
   // Adjust the column widths for better precision
   int id_width = 25;
