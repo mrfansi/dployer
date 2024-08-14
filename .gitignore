@@ -1,0 +1,39 @@
+# Ignore the executable file
+dployer
+
+# Ignore object files
+*.o
+
+# Ignore build directory
+build/
+cmake-build-debug/
+
+# Ignore CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Ignore log files
+*.log
+
+# Ignore editor files
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore dependency directory if applicable
+deps/
+
+# Ignore coverage and debugging files
+*.gcda
+*.gcno
+*.gcov
+
+# Ignore any config and temp files
+tmp/
