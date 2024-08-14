@@ -15,8 +15,6 @@
 #include <limits.h>
 #endif
 
-#include "logger.h"
-
 sqlite3 *db = NULL; // Definition of the global database variable
 
 void open_database(const char *db_name)
