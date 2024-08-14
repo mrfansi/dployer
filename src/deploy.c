@@ -281,8 +281,15 @@ void deploy_all_repos()
 
 void delete_service(const char *repo_id)
 {
-  // Delete the Docker service
-  char service_delete_command[256];
+  // Ensure repo_id is correctly handled
+  if (repo_id == NULL || strlen(repo_id) == 0)
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Invalid repository ID.");
+    return;
+  }
+
+  // Construct the Docker service removal command
+  char service_delete_command[512];
   snprintf(service_delete_command, sizeof(service_delete_command), "docker service rm %s_service > /dev/null 2>&1", repo_id);
 
   int ret = system(service_delete_command);

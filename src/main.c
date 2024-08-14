@@ -100,18 +100,18 @@ void mini_terminal()
                 log_message(WARNING, WARNING_SYMBOL, "Usage: switch <ID> <BRANCH_OR_TAG>");
             }
         }
-        else if (strcmp(command, "deploy") == 0 || strcmp(command, "d") == 0)
+        else if (strcmp(command, "deploy") == 0 || strcmp(command, "dep") == 0)
         {
             deploy_all_repos();
         }
         else if (strncmp(command, "deploy ", 7) == 0 || strncmp(command, "dep ", 4) == 0)
         {
-            const char *repo_id = (command[0] == 'd') ? command + 7 : command + 4;
+            const char *repo_id = (command[0] == 'd' && command[1] == 'e' && command[2] == 'p') ? command + 4 : command + 7;
             deploy_repo(repo_id);
         }
         else if (strncmp(command, "delete ", 7) == 0 || strncmp(command, "del ", 4) == 0)
         {
-            const char *repo_id = (command[0] == 'd') ? command + 7 : command + 4;
+            const char *repo_id = (command[0] == 'd' && command[1] == 'e' && command[2] == 'l') ? command + 4 : command + 7;
             delete_service(repo_id);
         }
         else if (strcmp(command, "help") == 0 || strcmp(command, "h") == 0)
