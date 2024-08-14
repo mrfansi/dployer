@@ -64,10 +64,6 @@ void open_database(const char *db_name)
         fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         exit(1);
     }
-    else
-    {
-        log_message(SUCCESS, SUCCESS_SYMBOL, "Opened database successfully.");
-    }
 
     // Initialize the database
     initialize_database();
@@ -108,5 +104,4 @@ void execute_query(const char *sql)
         sqlite3_free(err_msg);
         exit(1);
     }
-    log_message(SUCCESS, SUCCESS_SYMBOL, "Executed SQL query successfully.");
 }
