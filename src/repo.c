@@ -147,7 +147,11 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
 
   // Construct the path to the configuration directory
   char config_dir[PATH_MAX];
-  snprintf(config_dir, sizeof(config_dir), "%s/.config/dployer", home_dir);
+  if (snprintf(config_dir, sizeof(config_dir), "%s/.config/dployer", home_dir) >= sizeof(config_dir))
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Config directory path is too long.");
+    exit(1);
+  }
 
   // Ensure the configuration directory exists
   struct stat st = {0};
@@ -162,8 +166,12 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
   }
 
   // Ensure destination_folder is inside the "repositories" folder within the config directory
-  char actual_destination_folder[MAX_PATH_LEN];
-  snprintf(actual_destination_folder, sizeof(actual_destination_folder), "%s/repositories/%s", config_dir, destination_folder);
+  char actual_destination_folder[PATH_MAX];
+  if (snprintf(actual_destination_folder, sizeof(actual_destination_folder), "%s/repositories/%s", config_dir, destination_folder) >= sizeof(actual_destination_folder))
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Destination folder path is too long.");
+    exit(1);
+  }
 
   // Check if the destination folder exists
   if (stat(actual_destination_folder, &st) == 0 && S_ISDIR(st.st_mode))

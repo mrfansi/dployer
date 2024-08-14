@@ -31,7 +31,11 @@ void open_database(const char *db_name)
 
     // Construct the path to the configuration directory
     char config_dir[PATH_MAX];
-    snprintf(config_dir, sizeof(config_dir), "%s/.config/dployer", home_dir);
+    if (snprintf(config_dir, sizeof(config_dir), "%s/.config/dployer", home_dir) >= sizeof(config_dir))
+    {
+        log_message(ERROR, ERROR_SYMBOL, "Config directory path is too long.");
+        exit(1);
+    }
 
     // Ensure the configuration directory exists
     struct stat st = {0};
@@ -47,7 +51,11 @@ void open_database(const char *db_name)
 
     // Construct the full path to the database file
     char db_path[PATH_MAX];
-    snprintf(db_path, sizeof(db_path), "%s/%s", config_dir, db_name);
+    if (snprintf(db_path, sizeof(db_path), "%s/%s", config_dir, db_name) >= sizeof(db_path))
+    {
+        log_message(ERROR, ERROR_SYMBOL, "Database path is too long.");
+        exit(1);
+    }
 
     // Open the SQLite database
     if (sqlite3_open(db_path, &db) != SQLITE_OK)
