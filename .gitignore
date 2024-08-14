@@ -7,6 +7,7 @@ dployer
 # Ignore build directory
 build/
 cmake-build-debug/
+install_manifest.txt
 
 # Ignore CMake files
 CMakeFiles/

@@ -135,17 +135,37 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
   char command[MAX_PATH_LEN + 512];
   char docker_image_tag[256];
   char backup_folder[MAX_PATH_LEN + 512];
-  char rename_message[1024]; // Increase the buffer size to avoid truncation
+  char rename_message[1024];
 
-  // Ensure the "repositories" folder exists
-  ensure_repositories_folder_exists();
+  // Get the HOME environment variable
+  const char *home_dir = getenv("HOME");
+  if (!home_dir)
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Failed to get home directory.");
+    exit(1);
+  }
 
-  // Ensure destination_folder is inside "repositories" folder
+  // Construct the path to the configuration directory
+  char config_dir[PATH_MAX];
+  snprintf(config_dir, sizeof(config_dir), "%s/.config/dployer", home_dir);
+
+  // Ensure the configuration directory exists
+  struct stat st = {0};
+  if (stat(config_dir, &st) == -1)
+  {
+    if (mkdir(config_dir, 0700) != 0)
+    {
+      perror("mkdir");
+      log_message(ERROR, ERROR_SYMBOL, "Failed to create configuration directory.");
+      exit(1);
+    }
+  }
+
+  // Ensure destination_folder is inside the "repositories" folder within the config directory
   char actual_destination_folder[MAX_PATH_LEN];
-  snprintf(actual_destination_folder, sizeof(actual_destination_folder), "repositories/%s", destination_folder);
+  snprintf(actual_destination_folder, sizeof(actual_destination_folder), "%s/repositories/%s", config_dir, destination_folder);
 
   // Check if the destination folder exists
-  struct stat st;
   if (stat(actual_destination_folder, &st) == 0 && S_ISDIR(st.st_mode))
   {
     // Generate a timestamp for the backup folder name
@@ -156,7 +176,7 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
                        t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
                        t->tm_hour, t->tm_min, t->tm_sec);
 
-    if (ret >= (int)sizeof(backup_folder))
+    if (ret >= sizeof(backup_folder))
     {
       log_message(ERROR, ERROR_SYMBOL, "Backup folder path is too long. Exiting.");
       exit(1);
@@ -173,7 +193,7 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
     {
       int rename_message_length = snprintf(rename_message, sizeof(rename_message),
                                            "Existing directory renamed to %s.", backup_folder);
-      if (rename_message_length >= (int)sizeof(rename_message))
+      if (rename_message_length >= sizeof(rename_message))
       {
         log_message(WARNING, WARNING_SYMBOL, "Rename message was truncated.");
       }
@@ -200,7 +220,7 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
 
   // Clone the repository
   int ret = snprintf(command, sizeof(command), "git clone -b %s %s %s > /dev/null 2>&1", branch_name, git_url, actual_destination_folder);
-  if (ret >= (int)sizeof(command))
+  if (ret >= sizeof(command))
   {
     log_message(ERROR, ERROR_SYMBOL, "Command buffer overflow. Exiting.");
     exit(1);
@@ -209,7 +229,7 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
 
   log_message(SUCCESS, SUCCESS_SYMBOL, "Repository cloned successfully.");
 
-  // Determine the framework
+  // Determine the framework (this function would need to be adapted to use actual_destination_folder)
   const char *framework = check_repo_framework(actual_destination_folder);
   char framework_message[256];
   snprintf(framework_message, sizeof(framework_message), "Detected framework: %s", framework);
@@ -222,7 +242,7 @@ void clone_new_repo(const char *repo_id, const char *git_url, const char *destin
                  "VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
                  repo_id, git_url, actual_destination_folder, branch_name, docker_image_tag, docker_port);
 
-  if (ret >= (int)sizeof(sql))
+  if (ret >= sizeof(sql))
   {
     log_message(ERROR, ERROR_SYMBOL, "SQL query buffer overflow. Exiting.");
     exit(1);
