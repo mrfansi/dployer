@@ -275,7 +275,7 @@ void list_repositories()
   // Adjust the column widths for better precision
   int id_width = 25;
   int git_url_width = 60;
-  int dest_folder_width = 20;
+  int dest_folder_width = 60;
   int branch_width = 10;
   int docker_tag_width = 30;
   int docker_port_width = 15;
@@ -293,7 +293,7 @@ void list_repositories()
   printf("%-*s %-*s %-*s %-*s %-*s %-*s\n",
          id_width, "-------------------------",
          git_url_width, "------------------------------------------------------------",
-         dest_folder_width, "--------------------",
+         dest_folder_width, "------------------------------------------------------------",
          branch_width, "----------",
          docker_tag_width, "------------------------------",
          docker_port_width, "--------------");
