@@ -15,6 +15,7 @@ set(SOURCES
     src/logger.c
     src/database.c
     src/repo.c
+    src/deploy.c
     src/utils.c
     src/docker.c
 )

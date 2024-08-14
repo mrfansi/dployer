@@ -38,8 +38,8 @@ elif [ -f "/app/yarn.lock" ]; then
 fi
 
 # Set ownership of the vendor and node_modules directories to the application user
-chown -R application:application /app/vendor
-chown -R application:application /app/node_modules
+chown -R application:application /app/vendor || true
+chown -R application:application /app/node_modules || true
 
 # Run the build or prod script if found, and skip errors
 run_build_or_prod

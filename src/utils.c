@@ -8,20 +8,18 @@ extern int loading; // Assuming 'loading' is declared in another file (like main
 // Loader animation function
 void *loader_animation(void *arg)
 {
-  (void)arg;
-
   const char *spinner = "|/-\\";
   int i = 0;
+
+  // Log the initial message once, without the timestamp and log level
+  printf("%s[LOG] INFO ", INFO);
 
   while (loading)
   {
     printf("\r"); // Return the cursor to the beginning of the line
     char message[256];
     snprintf(message, sizeof(message), "[%c] Processing...", spinner[i % 4]);
-    printf("%s[LOG] INFO [%04d-%02d-%02d %02d:%02d:%02d] %s%s",
-           INFO,
-           2024, 8, 13, 15, 7, 29, // Placeholder for the timestamp; you should replace with actual time
-           message, NC);
+    printf("%s%s%s", INFO, message, NC);
     fflush(stdout);
     i++;
     usleep(100000); // Sleep for 100ms
