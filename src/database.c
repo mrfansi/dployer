@@ -22,10 +22,6 @@ void open_database(const char *db_name)
         fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         exit(1);
     }
-    else
-    {
-        log_message(SUCCESS, SUCCESS_SYMBOL, "Opened database successfully.");
-    }
 
     // Check if the repositories table exists
     const char *check_table_sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='repositories';";

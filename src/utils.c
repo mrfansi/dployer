@@ -95,7 +95,6 @@ void execute_command(const char *command)
 
 void check_requirements()
 {
-  log_message(INFO, INFO_SYMBOL, "Checking system requirements...");
 
   // Check if Git is installed
   if (system("command -v git > /dev/null") != 0)
@@ -104,16 +103,12 @@ void check_requirements()
     exit(1);
   }
 
-  log_message(SUCCESS, SUCCESS_SYMBOL, "Git is installed.");
-
   // Check if Docker is installed
   if (system("command -v docker > /dev/null") != 0)
   {
     log_message(ERROR, ERROR_SYMBOL, "Docker is not installed. Please install Docker.");
     exit(1);
   }
-
-  log_message(SUCCESS, SUCCESS_SYMBOL, "Docker is installed.");
 
   // Initialize Docker Swarm
   int swarm_init = system("docker swarm init > /dev/null 2>&1");
@@ -130,6 +125,4 @@ void check_requirements()
   {
     log_message(SUCCESS, SUCCESS_SYMBOL, "Docker Swarm initialized successfully.");
   }
-
-  log_message(SUCCESS, SUCCESS_SYMBOL, "All requirements are met.");
 }
