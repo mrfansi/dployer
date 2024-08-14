@@ -16,7 +16,6 @@
     - [Adding New Features](#adding-new-features)
     - [Building and Running](#building-and-running)
   - [License](#license)
-    - [Summary of Changes:](#summary-of-changes)
 
 ## Installation
 
@@ -127,17 +126,3 @@ Then, run the `dployer` binary as usual:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### Summary of Changes:
-
-1. **Installation Section**:
-   - Clarified installation steps, including how to build using CMake.
-
-2. **Configuration Section**:
-   - Explained the configuration directory structure, emphasizing the use of `{HOME}/.config/dployer`.
-
-3. **Commands Section**:
-   - Updated the list of available commands, reflecting the recent changes and functionality.
-
-4. **Development Section**:
-   - Added details about the project structure, including the newly introduced `deploy.c` file.
