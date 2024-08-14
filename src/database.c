@@ -1,7 +1,21 @@
 #include "database.h"
 #include "logger.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sqlite3.h>
 #include <sys/stat.h>
+#include <string.h>
+#include <unistd.h>
+
+#if defined(__APPLE__) && defined(__MACH__)
+// macOS specific includes
 #include <sys/syslimits.h>
+#else
+// Linux specific includes
+#include <limits.h>
+#endif
+
+#include "logger.h"
 
 sqlite3 *db = NULL; // Definition of the global database variable
 
