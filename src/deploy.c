@@ -2,10 +2,15 @@
 #include "database.h"
 #include "utils.h"
 #include "docker.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
-#include <ctype.h>
+#include <time.h>
+#include <unistd.h>
+#include <limits.h>
 #include <errno.h>
-#include <sys/syslimits.h>
 
 void deploy_repo(const char *repo_id)
 {
