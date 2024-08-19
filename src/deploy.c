@@ -15,6 +15,12 @@
 
 void deploy_repo(const char *repo_id)
 {
+  if (repo_id == NULL || strlen(repo_id) == 0)
+  {
+    log_message(ERROR, ERROR_SYMBOL, "Invalid repository ID.");
+    return;
+  }
+
   sqlite3_stmt *stmt;
   char sql[256];
   snprintf(sql, sizeof(sql), "SELECT destination_folder, docker_image_tag, docker_port FROM repositories WHERE id = ?;");
@@ -30,6 +36,8 @@ void deploy_repo(const char *repo_id)
 
   if (sqlite3_step(stmt) == SQLITE_ROW)
   {
+    log_message(INFO, INFO_SYMBOL, "Repository ID found, proceeding with deployment...");
+
     const char *destination_folder = (const char *)sqlite3_column_text(stmt, 0);
     const char *docker_image_tag = (const char *)sqlite3_column_text(stmt, 1);
     const char *docker_port = (const char *)sqlite3_column_text(stmt, 2);
