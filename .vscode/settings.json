@@ -3,6 +3,9 @@
     "*.embeddedhtml": "html",
     "*.sh": "shellscript",
     "docker.h": "c",
-    "utils.h": "c"
+    "utils.h": "c",
+    "deploy.h": "c",
+    "database.h": "c",
+    "logger.h": "c"
   }
 }
