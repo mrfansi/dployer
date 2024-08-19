@@ -122,7 +122,7 @@ void mini_terminal()
             {
                 char repo_message[256];
                 snprintf(repo_message, sizeof(repo_message), "Deploying repository '%s'...", repo_id);
-                log_message(SUCCESS, SUCCESS_SYMBOL, repo_message);
+                log_message(INFO, INFO_SYMBOL, repo_message);
                 deploy_repo(repo_id);
             }
             else
