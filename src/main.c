@@ -147,10 +147,6 @@ void mini_terminal()
         {
             break; // Exit the terminal
         }
-        else
-        {
-            log_message(WARNING, WARNING_SYMBOL, "Unknown command. Type 'help' for a list of commands.");
-        }
     }
 }
 
