@@ -106,6 +106,8 @@ void mini_terminal()
 
             if (repo_id != NULL && strlen(repo_id) > 0)
             {
+                // Debugging information to check repo_id
+                printf("Debug: repo_id extracted is '%s'\n", repo_id);
                 deploy_repo(repo_id);
             }
             else
