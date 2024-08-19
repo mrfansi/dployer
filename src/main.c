@@ -107,7 +107,15 @@ void mini_terminal()
         else if (strncmp(command, "deploy ", 7) == 0 || strncmp(command, "dep ", 4) == 0)
         {
             const char *repo_id = (command[0] == 'd' && command[1] == 'e' && command[2] == 'p') ? command + 4 : command + 7;
-            deploy_repo(repo_id);
+
+            if (repo_id != NULL && strlen(repo_id) > 0)
+            {
+                deploy_repo(repo_id);
+            }
+            else
+            {
+                log_message(WARNING, WARNING_SYMBOL, "Invalid repository ID. Usage: deploy <ID>");
+            }
         }
         else if (strncmp(command, "delete ", 7) == 0 || strncmp(command, "del ", 4) == 0)
         {
