@@ -102,7 +102,21 @@ void mini_terminal()
         }
         else if (strncmp(command, "deploy ", 7) == 0 || strncmp(command, "dep ", 4) == 0)
         {
-            const char *repo_id = (command[0] == 'd' && command[1] == 'e' && command[2] == 'p') ? command + 4 : command + 7;
+            const char *repo_id;
+            if (strncmp(command, "dep ", 4) == 0)
+            {
+                repo_id = command + 4;
+            }
+            else
+            {
+                repo_id = command + 7;
+            }
+
+            // Remove any leading spaces
+            while (*repo_id == ' ')
+            {
+                repo_id++;
+            }
 
             if (repo_id != NULL && strlen(repo_id) > 0)
             {
