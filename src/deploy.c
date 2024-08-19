@@ -1,4 +1,3 @@
-#include "repo.h"
 #include "logger.h"
 #include "database.h"
 #include "utils.h"
@@ -6,6 +5,7 @@
 #include <sys/stat.h>
 #include <ctype.h>
 #include <errno.h>
+#include <sys/syslimits.h>
 
 void deploy_repo(const char *repo_id)
 {
@@ -27,9 +27,6 @@ void deploy_repo(const char *repo_id)
     const char *destination_folder = (const char *)sqlite3_column_text(stmt, 0);
     const char *docker_image_tag = (const char *)sqlite3_column_text(stmt, 1);
     const char *docker_port = (const char *)sqlite3_column_text(stmt, 2);
-
-    // Pull the latest changes from the repository
-    pull_latest_repo(repo_id);
 
     // Convert destination_folder to an absolute path
     char absolute_destination_folder[PATH_MAX];
