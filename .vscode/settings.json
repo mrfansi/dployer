@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "*.sh": "shellscript",
+    "docker.h": "c",
+    "utils.h": "c"
+  }
+}

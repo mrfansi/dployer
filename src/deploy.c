@@ -2,6 +2,7 @@
 #include "database.h"
 #include "utils.h"
 #include "docker.h"
+#include "repo.h"
 
 #include <stdio.h>
 #include <stdlib.h>
